@@ -18,7 +18,7 @@ app.post('/api/chat', async (req, res) => {
 
   try {
     // Preferred path: use structured text-generation backend (external text engine)
-    if (process.env.TEXT_ENGINE_API_KEY) {
+    if (process.env.TEXT_ENGINE_API_KEY || process.env.GEMINI_API_KEY) {
       const llmResult = await generateStructuredResponse(input);
       return res.json(llmResult);
     }
@@ -97,7 +97,7 @@ app.post('/chat', async (req, res) => {
   }
 
   try {
-    if (process.env.TEXT_ENGINE_API_KEY) {
+    if (process.env.TEXT_ENGINE_API_KEY || process.env.GEMINI_API_KEY) {
       const llmResult = await generateStructuredResponse(payload);
       const answerText = buildAnswerFromStructured(llmResult);
       return res.json({ answer: answerText });
