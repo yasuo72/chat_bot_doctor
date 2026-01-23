@@ -1,10 +1,13 @@
 const axios = require('axios');
 
-const TEXT_ENGINE_API_KEY = process.env.TEXT_ENGINE_API_KEY;
-const TEXT_ENGINE_MODEL = process.env.TEXT_ENGINE_MODEL || 'gemini-pro';
-const TEXT_ENGINE_URL =
-  process.env.TEXT_ENGINE_URL ||
-  `https://generativelanguage.googleapis.com/v1beta/models/${TEXT_ENGINE_MODEL}:generateContent`;
+// Prefer a dedicated text engine key, but fall back to a shared GEMINI_API_KEY if present.
+const TEXT_ENGINE_API_KEY =
+  process.env.TEXT_ENGINE_API_KEY || process.env.GEMINI_API_KEY;
+
+// Use a single, safe default model and endpoint (same pattern as receipt-backend).
+// No need to set TEXT_ENGINE_MODEL or TEXT_ENGINE_URL in .env for normal usage.
+const TEXT_ENGINE_MODEL = 'gemini-2.5-flash';
+const TEXT_ENGINE_URL = `https://generativelanguage.googleapis.com/v1/models/${TEXT_ENGINE_MODEL}:generateContent`;
 
 // System-style instructions for MediGuideBackend.
 // This text is never returned to the end user; it only guides the engine.
